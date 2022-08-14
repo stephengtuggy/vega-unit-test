@@ -64,6 +64,16 @@ namespace VegaUnit {
             return flightgroup_member_number;
         }
 
+        inline bool operator<(const Unit& other_unit) const {
+            if (this->flightgroup_name < other_unit.flightgroup_name) {
+                return true;
+            } else if (this->flightgroup_name == other_unit.flightgroup_name) {
+                return this->flightgroup_member_number < other_unit.flightgroup_member_number;
+            } else {
+                return false;
+            }
+        }
+
     };
 
     using UnitRawPtr = Unit *;
