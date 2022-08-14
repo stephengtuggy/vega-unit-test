@@ -61,9 +61,9 @@ namespace VegaUnit {
 
         inline virtual ~Unit() {
             std::cout << "Unit destructor called" << std::endl;
-            if (use_count() == 0) {
-                setKilled(true);
-            }
+//            if (use_count() == 0) {
+//                setKilled(true);
+//            }
         }
 
         inline std::string getFlightgroupName() const {

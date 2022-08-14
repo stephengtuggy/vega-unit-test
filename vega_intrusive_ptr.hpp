@@ -8,6 +8,13 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
+struct null_deleter
+{
+    void operator()(void const *) const
+    {
+    }
+};
+
 template<class T>
 struct intrusive_deleter {
     void operator()(T *p) {
