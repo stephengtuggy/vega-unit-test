@@ -93,11 +93,19 @@ using UnitPtrForPy = UnitRawPtr;
 int main() {
     std::cout << "Entering main()" << std::endl;
     UnitSharedPtr unitSharedPtr = make_shared_from_intrusive(new Unit());
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     unitSharedPtr->Ref();
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     unitSharedPtr->UnRef();
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     UnitSharedPtr anotherPtr = unitSharedPtr; // NOLINT(performance-unnecessary-copy-initialization)
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     anotherPtr->Ref();
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     anotherPtr->UnRef();
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
+    anotherPtr.reset();
+    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     std::cout << "Exiting main()" << std::endl;
     return 0;
 }
