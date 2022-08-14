@@ -10,7 +10,6 @@
 #include <boost/smart_ptr/intrusive_ptr.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include "vega_intrusive_ptr.hpp"
-//#include <boost/smart_ptr/make_shared_object.hpp>
 
 class Unit : public boost::intrusive_ref_counter<Unit, boost::thread_safe_counter> {
 protected:
@@ -39,19 +38,6 @@ public:
         std::cout << "Unit destructor called" << std::endl;
         setKilled(true);
     }
-
-    // The following don't work for some reason
-//    inline void Ref() {
-//        std::cout << "Unit::Ref() called" << std::endl;
-//        intrusive_ptr_add_ref(this);
-//        isKilled();
-//    }
-//
-//    inline void UnRef() {
-//        std::cout << "Unit::UnRef() called" << std::endl;
-//        intrusive_ptr_release(this);
-////        isKilled();
-//    }
 
 };
 
