@@ -7,7 +7,7 @@
 
 #include <string>
 #include <cstdint>
-#include <iostream>
+//#include <iostream>
 #include <utility>
 
 namespace VegaStrike {
@@ -22,7 +22,7 @@ namespace VegaStrike {
         int32_t flightgroup_member_number{};
 
         inline bool isKilled() const {
-            std::cout << "isKilled called. Value: " << killed << std::endl;
+//            std::cout << "isKilled called. Value: " << killed << std::endl;
             return killed;
         }
 
@@ -30,25 +30,25 @@ namespace VegaStrike {
 
     public:
         inline Unit(Unit const & rhs) : flightgroup_name(rhs.flightgroup_name), flightgroup_member_number(rhs.flightgroup_member_number) {
-            std::cout << "Unit copy constructor called" << std::endl;
+//            std::cout << "Unit copy constructor called" << std::endl;
             isKilled();
         }
 
         inline Unit & operator=(Unit const & rhs) {
-            std::cout << "Unit operator= called" << std::endl;
+//            std::cout << "Unit operator= called" << std::endl;
             flightgroup_name = rhs.flightgroup_name;
             flightgroup_member_number = rhs.flightgroup_member_number;
             return *this;
         }
 
         inline virtual ~Unit() {
-            std::cout << "Unit destructor called" << std::endl;
+//            std::cout << "Unit destructor called" << std::endl;
         }
 
         Unit() = delete;
 
         inline virtual void kill() {
-            std::cout << "kill called" << std::endl;
+//            std::cout << "kill called" << std::endl;
             killed = true;
         }
 
@@ -72,7 +72,7 @@ namespace VegaStrike {
 
         inline Unit(std::string flightgroup_name, int32_t flightgroup_member_number) : flightgroup_name(
                 std::move(flightgroup_name)), flightgroup_member_number(flightgroup_member_number) {
-            std::cout << "Two-arg Unit constructor called" << std::endl;
+//            std::cout << "Two-arg Unit constructor called" << std::endl;
             isKilled();
         }
     };
