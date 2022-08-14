@@ -76,7 +76,7 @@ public:
     inline void UnRef() {
         std::cout << "Unit::UnRef() called" << std::endl;
         intrusive_ptr_release(this);
-//            isKilled();
+//        isKilled();
     }
 
 };
@@ -91,6 +91,10 @@ using UnitParentPtr = UnitWeakPtr;
 using UnitPtrForPy = UnitRawPtr;
 
 int main() {
+    std::cout << "Entering main()" << std::endl;
     UnitSharedPtr unitSharedPtr = make_shared_from_intrusive(new Unit());
+    unitSharedPtr->Ref();
+    unitSharedPtr->UnRef();
+    std::cout << "Exiting main()" << std::endl;
     return 0;
 }
