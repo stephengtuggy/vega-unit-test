@@ -86,7 +86,7 @@ using UnitIntrusivePtr = boost::intrusive_ptr<Unit>;
 using UnitSharedPtr = boost::shared_ptr<Unit>;
 using UnitWeakPtr = boost::weak_ptr<Unit>;
 
-using UnitPtr = UnitRawPtr;
+using UnitPtr = UnitSharedPtr;
 using UnitParentPtr = UnitWeakPtr;
 using UnitPtrForPy = UnitRawPtr;
 
