@@ -9,11 +9,9 @@ using namespace boost;
 using namespace boost::multi_index;
 using namespace VegaStrike;
 
-
-
 int main() {
-    const int32_t kNumUnitsToCreate{50};
-    const int32_t kNumOfUnitToKill{25};
+    const int32_t kNumUnitsToCreate{500};
+    const int32_t kNumOfUnitToKill{250};
     const std::string kFlightgroupName{"Shlimazel"};
 
     std::cout << "Entering main()" << std::endl;
@@ -29,7 +27,7 @@ int main() {
     UnitContainer const & live_units = universe.getAllLiveUnits();
     std::copy(live_units.get<0>().cbegin(), live_units.get<0>().cend(), std::ostream_iterator<const Unit &>(std::cout, "\n"));
 
-    std::cout << boost::format("Killing number %1% from flightgroup %2%") % kNumOfUnitToKill % kFlightgroupName;
+    std::cout << (boost::format("Killing number %1% from flightgroup %2%") % kNumOfUnitToKill % kFlightgroupName) << std::endl;
     UnitContainerIterator1 unit_to_kill = live_units.get<1>().find(std::make_tuple(kFlightgroupName, kNumOfUnitToKill));
     universe.killUnit(const_cast<Unit &>(*unit_to_kill));
 
