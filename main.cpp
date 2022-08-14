@@ -3,6 +3,8 @@
 #include "vega_intrusive_ptr.hpp"
 #include "unit.hpp"
 
+using namespace VegaUnit;
+
 int main() {
     std::cout << "Entering main()" << std::endl;
     UnitSharedPtr unitSharedPtr = make_shared_from_intrusive(new Unit());

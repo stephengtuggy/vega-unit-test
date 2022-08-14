@@ -14,63 +14,67 @@
 #include <utility>
 #include "vega_intrusive_ptr.hpp"
 
-class Unit : public boost::intrusive_ref_counter<Unit, boost::thread_safe_counter> {
-protected:
-    bool killed{false};
+namespace VegaUnit {
 
-    std::string flightgroup_name;
-    int32_t flightgroup_member_number{};
+    class Unit : public boost::intrusive_ref_counter<Unit, boost::thread_safe_counter> {
+    protected:
+        bool killed{false};
 
-    inline bool isKilled() const {
-        std::cout << "isKilled called. Value: " << killed << std::endl;
-        return killed;
-    }
+        std::string flightgroup_name;
+        int32_t flightgroup_member_number{};
 
-    inline void setKilled(bool new_value) {
-        std::cout << "setKilled called with new_value: " << new_value << std::endl;
-        killed = new_value;
-    }
+        inline bool isKilled() const {
+            std::cout << "isKilled called. Value: " << killed << std::endl;
+            return killed;
+        }
 
-public:
-    using IntrusiveUnitRefCounter = boost::intrusive_ref_counter<Unit, boost::thread_safe_counter>;
+        inline void setKilled(bool new_value) {
+            std::cout << "setKilled called with new_value: " << new_value << std::endl;
+            killed = new_value;
+        }
 
-    Unit(const Unit &) = delete;
+    public:
+        using IntrusiveUnitRefCounter = boost::intrusive_ref_counter<Unit, boost::thread_safe_counter>;
 
-    Unit &operator=(const Unit &) = delete;
+        Unit(const Unit &) = delete;
 
-    inline Unit() {
-        std::cout << "No-arg Unit constructor called" << std::endl;
-        isKilled();
-    }
+        Unit &operator=(const Unit &) = delete;
 
-    inline Unit(std::string flightgroup_name, int32_t flightgroup_member_number) : flightgroup_name(
-            std::move(flightgroup_name)), flightgroup_member_number(flightgroup_member_number) {
-        std::cout << "Two-arg Unit constructor called" << std::endl;
-        isKilled();
-    }
+        inline Unit() {
+            std::cout << "No-arg Unit constructor called" << std::endl;
+            isKilled();
+        }
 
-    inline virtual ~Unit() {
-        std::cout << "Unit destructor called" << std::endl;
-        setKilled(true);
-    }
+        inline Unit(std::string flightgroup_name, int32_t flightgroup_member_number) : flightgroup_name(
+                std::move(flightgroup_name)), flightgroup_member_number(flightgroup_member_number) {
+            std::cout << "Two-arg Unit constructor called" << std::endl;
+            isKilled();
+        }
 
-    inline std::string getFlightgroupName() const {
-        return flightgroup_name;
-    }
+        inline virtual ~Unit() {
+            std::cout << "Unit destructor called" << std::endl;
+            setKilled(true);
+        }
 
-    inline int32_t getFlightgroupMemberNumber() const {
-        return flightgroup_member_number;
-    }
+        inline std::string getFlightgroupName() const {
+            return flightgroup_name;
+        }
 
-};
+        inline int32_t getFlightgroupMemberNumber() const {
+            return flightgroup_member_number;
+        }
 
-using UnitRawPtr = Unit *;
-using UnitIntrusivePtr = boost::intrusive_ptr<Unit>;
-using UnitSharedPtr = boost::shared_ptr<Unit>;
-using UnitWeakPtr = boost::weak_ptr<Unit>;
+    };
 
-using UnitPtr = UnitSharedPtr;
-using UnitParentPtr = UnitWeakPtr;
-using UnitPtrForPy = UnitRawPtr;
+    using UnitRawPtr = Unit *;
+    using UnitIntrusivePtr = boost::intrusive_ptr<Unit>;
+    using UnitSharedPtr = boost::shared_ptr<Unit>;
+    using UnitWeakPtr = boost::weak_ptr<Unit>;
+
+    using UnitPtr = UnitSharedPtr;
+    using UnitParentPtr = UnitWeakPtr;
+    using UnitPtrForPy = UnitRawPtr;
+
+}
 
 #endif //VEGA_UNIT_TEST_UNIT_HPP
