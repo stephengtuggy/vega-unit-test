@@ -8,17 +8,13 @@
 #include <string>
 #include <cstdint>
 #include <iostream>
-//#include <boost/smart_ptr/intrusive_ref_counter.hpp>
-//#include <boost/smart_ptr/intrusive_ptr.hpp>
-//#include <boost/smart_ptr/shared_ptr.hpp>
 #include <utility>
-//#include "vega_intrusive_ptr.hpp"
 
 namespace VegaStrike {
 
     class Universe;
 
-    class Unit { //: public boost::intrusive_ref_counter<Unit, boost::thread_safe_counter> {
+    class Unit {
     protected:
         bool killed{false};
 
@@ -30,17 +26,10 @@ namespace VegaStrike {
             return killed;
         }
 
-//        inline void setKilled(bool new_value) {
-//            std::cout << "setKilled called with new_value: " << new_value << std::endl;
-//            killed = new_value;
-//        }
-
         friend class Universe;
 
-//        using IntrusiveUnitRefCounter = boost::intrusive_ref_counter<Unit, boost::thread_safe_counter>;
-
     public:
-        inline Unit(Unit const & rhs) : /*IntrusiveUnitRefCounter(rhs),*/ flightgroup_name(rhs.flightgroup_name), flightgroup_member_number(rhs.flightgroup_member_number) {
+        inline Unit(Unit const & rhs) : flightgroup_name(rhs.flightgroup_name), flightgroup_member_number(rhs.flightgroup_member_number) {
             std::cout << "Unit copy constructor called" << std::endl;
             isKilled();
         }
@@ -54,9 +43,6 @@ namespace VegaStrike {
 
         inline virtual ~Unit() {
             std::cout << "Unit destructor called" << std::endl;
-//            if (use_count() == 0) {
-//                setKilled(true);
-//            }
         }
 
         Unit() = delete;
@@ -91,25 +77,10 @@ namespace VegaStrike {
         }
     };
 
-//    using UnitRawPtr = Unit *;
-//    using UnitIntrusivePtr = boost::intrusive_ptr<Unit>;
-//    using UnitSharedPtr = boost::shared_ptr<Unit>;
-//    using UnitConstPtr = boost::shared_ptr<const Unit>;
-//    using UnitWeakPtr = boost::weak_ptr<Unit>;
-//
-//    using UnitPtr = UnitSharedPtr;
-//    using UnitParentPtr = UnitWeakPtr;
-//    using UnitPtrForPy = UnitRawPtr;
-
     inline std::ostream & operator<<(std::ostream& os, const Unit& unit) {
         os << unit.getFlightgroupName() << ' ' << unit.getFlightgroupMemberNumber();
         return os;
     }
-
-//    inline std::ostream & operator<<(std::ostream& os, const UnitSharedPtr& unit) {
-//        os << unit->getFlightgroupName() << ' ' << unit->getFlightgroupMemberNumber();
-//        return os;
-//    }
 
     struct CompareByFlightgroup {
         bool operator()(Unit const & unit, std::string flightgroup_name, int32_t flightgroup_number) {

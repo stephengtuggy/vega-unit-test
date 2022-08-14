@@ -1,12 +1,7 @@
 #include <iostream>
 #include "boost/format.hpp"
-#include <boost/multi_index_container.hpp>
-#include <boost/multi_index/sequenced_index.hpp>
-#include <boost/multi_index/ordered_index.hpp>
-#include <boost/multi_index/identity.hpp>
 #include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
-//#include "vega_intrusive_ptr.hpp"
 #include "unit.hpp"
 #include "universe.hpp"
 

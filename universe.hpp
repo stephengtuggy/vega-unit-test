@@ -11,11 +11,9 @@
 #include <boost/multi_index/identity.hpp>
 #include <boost/multi_index/composite_key.hpp>
 #include <boost/multi_index/mem_fun.hpp>
-//#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <utility>
-//#include "vega_intrusive_ptr.hpp"
 #include "unit.hpp"
 
 namespace VegaStrike {
