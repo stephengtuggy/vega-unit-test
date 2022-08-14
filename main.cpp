@@ -22,17 +22,26 @@ int main() {
     anotherPtr.reset();
     std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
 
+    std::cout << "Initializing multi_index_container" << std::endl;
     typedef multi_index_container<
             UnitSharedPtr,
-            indexed_by<ordered_unique<identity<Unit>>
+            indexed_by<ordered_unique<identity<UnitSharedPtr>>
             >
     > UnitContainer;
     UnitContainer unit_container{};
 
+    UnitSharedPtr number_25{};
     for (int32_t i = 0; i < 50; ++i) {
         UnitSharedPtr stillAnother = make_shared_from_intrusive(new Unit("Shlimazel", i));
         unit_container.get<0>().insert(stillAnother);
+        if (i == 25) {
+            number_25 = stillAnother;
+        }
     }
+
+    std::cout << "Erasing number 25" << std::endl;
+    unit_container.get<0>().erase(number_25);
+    number_25.reset();
 
     std::cout << "Exiting main()" << std::endl;
     return 0;
