@@ -67,17 +67,18 @@ public:
         setKilled(true);
     }
 
-    inline void Ref() {
-        std::cout << "Unit::Ref() called" << std::endl;
-        intrusive_ptr_add_ref(this);
-        isKilled();
-    }
-
-    inline void UnRef() {
-        std::cout << "Unit::UnRef() called" << std::endl;
-        intrusive_ptr_release(this);
+    // The following don't work for some reason
+//    inline void Ref() {
+//        std::cout << "Unit::Ref() called" << std::endl;
+//        intrusive_ptr_add_ref(this);
 //        isKilled();
-    }
+//    }
+//
+//    inline void UnRef() {
+//        std::cout << "Unit::UnRef() called" << std::endl;
+//        intrusive_ptr_release(this);
+////        isKilled();
+//    }
 
 };
 
@@ -94,16 +95,16 @@ int main() {
     std::cout << "Entering main()" << std::endl;
     UnitSharedPtr unitSharedPtr = make_shared_from_intrusive(new Unit());
     std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
-    unitSharedPtr->Ref();
-    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
-    unitSharedPtr->UnRef();
-    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
+//    unitSharedPtr->Ref();
+//    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
+//    unitSharedPtr->UnRef();
+//    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     UnitSharedPtr anotherPtr = unitSharedPtr; // NOLINT(performance-unnecessary-copy-initialization)
     std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
-    anotherPtr->Ref();
-    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
-    anotherPtr->UnRef();
-    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
+//    anotherPtr->Ref();
+//    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
+//    anotherPtr->UnRef();
+//    std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     anotherPtr.reset();
     std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     std::cout << "Exiting main()" << std::endl;
