@@ -29,6 +29,7 @@ int main() {
             >
     > UnitContainer;
     UnitContainer unit_container{};
+    typedef UnitContainer::nth_index_iterator<0>::type UnitContainerIterator;
     typedef const UnitContainer::nth_index_const_iterator<0>::type UnitContainerConstIterator;
 
     UnitSharedPtr number_25{};
@@ -40,12 +41,18 @@ int main() {
         }
     }
 
+    std::cout << "Copying all the Units to cout" << std::endl;
+    std::copy(unit_container.get<0>().cbegin(), unit_container.get<0>().cend(), std::ostream_iterator<const Unit &>(std::cout, "\n"));
+
     std::cout << "Erasing number 25" << std::endl;
     unit_container.get<0>().erase(*number_25);
+    number_25->Kill();
     number_25.reset();
 
     std::cout << "Copying all the remaining Units to cout" << std::endl;
     std::copy(unit_container.get<0>().cbegin(), unit_container.get<0>().cend(), std::ostream_iterator<const Unit &>(std::cout, "\n"));
+
+    std::for_each(unit_container.get<0>().begin(), unit_container.get<0>().end(), [](Unit unit) { unit.Kill(); } );
 
     std::cout << "Exiting main()" << std::endl;
     return 0;

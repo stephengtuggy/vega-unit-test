@@ -28,10 +28,10 @@ namespace VegaUnit {
             return killed;
         }
 
-        inline void setKilled(bool new_value) {
-            std::cout << "setKilled called with new_value: " << new_value << std::endl;
-            killed = new_value;
-        }
+//        inline void setKilled(bool new_value) {
+//            std::cout << "setKilled called with new_value: " << new_value << std::endl;
+//            killed = new_value;
+//        }
 
     public:
         using IntrusiveUnitRefCounter = boost::intrusive_ref_counter<Unit, boost::thread_safe_counter>;
@@ -64,6 +64,11 @@ namespace VegaUnit {
 //            if (use_count() == 0) {
 //                setKilled(true);
 //            }
+        }
+
+        inline virtual void Kill() {
+            std::cout << "Kill called" << std::endl;
+            killed = true;
         }
 
         inline std::string getFlightgroupName() const {
