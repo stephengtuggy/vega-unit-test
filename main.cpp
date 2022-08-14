@@ -9,8 +9,8 @@ using namespace boost::multi_index;
 using namespace VegaStrike;
 
 int main() {
-    const int32_t kNumUnitsToCreate{500};
-    const int32_t kNumOfUnitToKill{250};
+    const int32_t kNumUnitsToCreate{10000};
+    const int32_t kNumOfUnitToKill{5000};
     const std::string kFlightgroupName{"Shlimazel"};
 
     std::cout << "Entering main()" << std::endl;
