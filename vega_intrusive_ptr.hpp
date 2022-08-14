@@ -8,25 +8,23 @@
 #include <boost/intrusive_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
-template<class T> struct intrusive_deleter
-{
-    void operator()(T * p)
-    {
+template<class T>
+struct intrusive_deleter {
+    void operator()(T *p) {
         if (p) {
             intrusive_ptr_release(p);
         }
     }
 
-    void operator()(boost::intrusive_ptr<T> p)
-    {
+    void operator()(boost::intrusive_ptr<T> p) {
         if (p) {
             intrusive_ptr_release(p);
         }
     }
 };
 
-template<class T> boost::shared_ptr<T> make_shared_from_intrusive(T * p)
-{
+template<class T>
+boost::shared_ptr<T> make_shared_from_intrusive(T *p) {
     if (p) {
         intrusive_ptr_add_ref(p);
     }
@@ -34,8 +32,8 @@ template<class T> boost::shared_ptr<T> make_shared_from_intrusive(T * p)
     return px;
 }
 
-template<class T> boost::shared_ptr<T> make_shared_from_intrusive(boost::intrusive_ptr<T> p)
-{
+template<class T>
+boost::shared_ptr<T> make_shared_from_intrusive(boost::intrusive_ptr<T> p) {
     if (p) {
         intrusive_ptr_add_ref(p);
     }
