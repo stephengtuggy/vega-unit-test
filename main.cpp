@@ -2,42 +2,8 @@
 #include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/smart_ptr/intrusive_ptr.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
+#include "vega_intrusive_ptr.hpp"
 //#include <boost/smart_ptr/make_shared_object.hpp>
-
-template<class T> struct intrusive_deleter
-{
-    void operator()(T * p)
-    {
-        if (p) {
-            intrusive_ptr_release(p);
-        }
-    }
-
-    void operator()(boost::intrusive_ptr<T> p)
-    {
-        if (p) {
-            intrusive_ptr_release(p);
-        }
-    }
-};
-
-template<class T> boost::shared_ptr<T> make_shared_from_intrusive(T * p)
-{
-    if (p) {
-        intrusive_ptr_add_ref(p);
-    }
-    boost::shared_ptr<T> px(p, intrusive_deleter<T>());
-    return px;
-}
-
-template<class T> boost::shared_ptr<T> make_shared_from_intrusive(boost::intrusive_ptr<T> p)
-{
-    if (p) {
-        intrusive_ptr_add_ref(p);
-    }
-    boost::shared_ptr<T> px(p, intrusive_deleter<T>());
-    return px;
-}
 
 class Unit : public boost::intrusive_ref_counter<Unit, boost::thread_safe_counter> {
 protected:
