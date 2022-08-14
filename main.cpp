@@ -11,6 +11,7 @@ int main() {
     std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
     anotherPtr.reset();
     std::cout << "reference count: " << unitSharedPtr.use_count() << std::endl;
+    UnitSharedPtr stillAnotherPtr = make_shared_from_intrusive(new Unit("Shlimazel", 1));
     std::cout << "Exiting main()" << std::endl;
     return 0;
 }
