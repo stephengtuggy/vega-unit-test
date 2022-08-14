@@ -36,10 +36,6 @@ namespace VegaUnit {
     public:
         using IntrusiveUnitRefCounter = boost::intrusive_ref_counter<Unit, boost::thread_safe_counter>;
 
-        Unit(const Unit &) = delete;
-
-        Unit &operator=(const Unit &) = delete;
-
         inline Unit() {
             std::cout << "No-arg Unit constructor called" << std::endl;
             isKilled();
@@ -51,9 +47,23 @@ namespace VegaUnit {
             isKilled();
         }
 
+        inline Unit(Unit const & rhs) : IntrusiveUnitRefCounter(rhs), flightgroup_name(rhs.flightgroup_name), flightgroup_member_number(rhs.flightgroup_member_number) {
+            std::cout << "Unit copy constructor called" << std::endl;
+            isKilled();
+        }
+
+        inline Unit & operator=(Unit const & rhs) {
+            std::cout << "Unit operator= called" << std::endl;
+            flightgroup_name = rhs.flightgroup_name;
+            flightgroup_member_number = rhs.flightgroup_member_number;
+            return *this;
+        }
+
         inline virtual ~Unit() {
             std::cout << "Unit destructor called" << std::endl;
-            setKilled(true);
+            if (use_count() == 0) {
+                setKilled(true);
+            }
         }
 
         inline std::string getFlightgroupName() const {
@@ -67,10 +77,10 @@ namespace VegaUnit {
         inline bool operator<(const Unit& other_unit) const {
             if (this->flightgroup_name < other_unit.flightgroup_name) {
                 return true;
-            } else if (this->flightgroup_name == other_unit.flightgroup_name) {
-                return this->flightgroup_member_number < other_unit.flightgroup_member_number;
-            } else {
+            } else if (this->flightgroup_name > other_unit.flightgroup_name) {
                 return false;
+            } else {
+                return (this->flightgroup_member_number < other_unit.flightgroup_member_number);
             }
         }
 
@@ -84,6 +94,16 @@ namespace VegaUnit {
     using UnitPtr = UnitSharedPtr;
     using UnitParentPtr = UnitWeakPtr;
     using UnitPtrForPy = UnitRawPtr;
+
+    inline std::ostream & operator<<(std::ostream& os, const Unit& unit) {
+        os << unit.getFlightgroupName() << ' ' << unit.getFlightgroupMemberNumber();
+        return os;
+    }
+
+    inline std::ostream & operator<<(std::ostream& os, const UnitSharedPtr& unit) {
+        os << unit->getFlightgroupName() << ' ' << unit->getFlightgroupMemberNumber();
+        return os;
+    }
 
 }
 

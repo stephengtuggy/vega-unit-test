@@ -24,24 +24,28 @@ int main() {
 
     std::cout << "Initializing multi_index_container" << std::endl;
     typedef multi_index_container<
-            UnitSharedPtr,
-            indexed_by<ordered_unique<identity<UnitSharedPtr>>
+            Unit,
+            indexed_by<ordered_unique<identity<Unit>>
             >
     > UnitContainer;
     UnitContainer unit_container{};
+    typedef const UnitContainer::nth_index_const_iterator<0>::type UnitContainerConstIterator;
 
     UnitSharedPtr number_25{};
     for (int32_t i = 0; i < 50; ++i) {
         UnitSharedPtr stillAnother = make_shared_from_intrusive(new Unit("Shlimazel", i));
-        unit_container.get<0>().insert(stillAnother);
+        unit_container.get<0>().emplace(*stillAnother);
         if (i == 25) {
             number_25 = stillAnother;
         }
     }
 
     std::cout << "Erasing number 25" << std::endl;
-    unit_container.get<0>().erase(number_25);
+    unit_container.get<0>().erase(*number_25);
     number_25.reset();
+
+    std::cout << "Copying all the remaining Units to cout" << std::endl;
+    std::copy(unit_container.get<0>().cbegin(), unit_container.get<0>().cend(), std::ostream_iterator<const Unit &>(std::cout, "\n"));
 
     std::cout << "Exiting main()" << std::endl;
     return 0;
