@@ -1,6 +1,5 @@
 #include <iostream>
 #include "boost/format.hpp"
-#include <boost/smart_ptr/intrusive_ref_counter.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include "unit.hpp"
 #include "universe.hpp"
