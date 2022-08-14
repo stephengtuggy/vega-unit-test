@@ -4,6 +4,7 @@
   "version-string": "0.9.0",
   "builtin-baseline": "b25cb779e5783531cc66562e224079b376055939",
   "dependencies": [
-    "boost-multi-index"
+    "boost-multi-index",
+    "boost-format"
   ]
 }
