@@ -95,6 +95,9 @@ int main() {
     UnitSharedPtr unitSharedPtr = make_shared_from_intrusive(new Unit());
     unitSharedPtr->Ref();
     unitSharedPtr->UnRef();
+    UnitSharedPtr anotherPtr = unitSharedPtr; // NOLINT(performance-unnecessary-copy-initialization)
+    anotherPtr->Ref();
+    anotherPtr->UnRef();
     std::cout << "Exiting main()" << std::endl;
     return 0;
 }
