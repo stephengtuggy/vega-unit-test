@@ -52,15 +52,19 @@ namespace VegaStrike {
             killed = true;
         }
 
-        inline std::string getFlightgroupName() const {
+        std::string getFlightgroupName() const {
             return flightgroup_name;
         }
 
-        inline int32_t getFlightgroupMemberNumber() const {
+        int32_t getFlightgroupMemberNumber() const {
             return flightgroup_member_number;
         }
 
-        inline bool operator<(const Unit& other_unit) const {
+        int32_t getFlightgroupSubNumber() const {
+            return flightgroup_member_number;
+        }
+
+        bool operator<(const Unit& other_unit) const {
             if (this->flightgroup_name < other_unit.flightgroup_name) {
                 return true;
             } else if (this->flightgroup_name > other_unit.flightgroup_name) {

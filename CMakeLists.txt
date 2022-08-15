@@ -9,6 +9,6 @@ add_compile_definitions("BOOST_ALL_DYN_LINK" "$<$<CXX_COMPILER_ID:MSVC>:__x86_64
 
 FIND_PACKAGE(Boost REQUIRED)
 
-add_executable(vega_unit_test main.cpp vega_intrusive_ptr.hpp unit.hpp universe.hpp)
+add_executable(vega_unit_test main.cpp vega_intrusive_ptr.hpp unit.hpp universe.hpp vega_unit_collection.hpp)
 
 target_include_directories(vega_unit_test PRIVATE ${Boost_INCLUDE_DIRS})

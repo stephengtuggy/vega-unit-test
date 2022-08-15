@@ -24,10 +24,10 @@ int main() {
 
     std::cout << "Copying all the Units to cout" << std::endl;
     UnitContainer const & live_units = universe.getAllLiveUnits();
-    std::copy(live_units.get<0>().cbegin(), live_units.get<0>().cend(), std::ostream_iterator<const Unit &>(std::cout, "\n"));
+    std::copy(live_units.get<UnitSequenced>().cbegin(), live_units.get<UnitSequenced>().cend(), std::ostream_iterator<const Unit &>(std::cout, "\n"));
 
     std::cout << (boost::format("Killing number %1% from flightgroup %2%") % kNumOfUnitToKill % kFlightgroupName) << std::endl;
-    UnitContainerIterator1 unit_to_kill = live_units.get<1>().find(std::make_tuple(kFlightgroupName, kNumOfUnitToKill));
+    UnitSequencedIterator unit_to_kill = live_units.get<0>().find(std::make_tuple(kFlightgroupName, kNumOfUnitToKill), new CompareByFlightgroup());
     universe.killUnit(const_cast<Unit &>(*unit_to_kill));
 
     std::cout << "Copying all the remaining Units to cout" << std::endl;

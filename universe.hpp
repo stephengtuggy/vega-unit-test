@@ -14,6 +14,7 @@
 #include <boost/smart_ptr/make_shared.hpp>
 #include <boost/smart_ptr/shared_ptr.hpp>
 #include <utility>
+#include "vega_unit_collection.hpp"
 #include "unit.hpp"
 
 namespace VegaStrike {
@@ -21,21 +22,8 @@ namespace VegaStrike {
     using namespace boost;
     using namespace boost::multi_index;
 
-    typedef multi_index_container<
-            Unit,
-            indexed_by<
-                ordered_unique<identity<Unit>>,
-                ordered_unique<composite_key<
-                    Unit,
-                    const_mem_fun<Unit, std::string, &Unit::getFlightgroupName>,
-                    const_mem_fun<Unit, int32_t, &Unit::getFlightgroupMemberNumber>
-                >>
-            >
-    > UnitContainer;
-    typedef UnitContainer::nth_index_iterator<0>::type UnitContainerIterator0;
-    typedef const UnitContainer::nth_index_const_iterator<0>::type UnitContainerConstIterator0;
-    typedef UnitContainer::nth_index_iterator<1>::type UnitContainerIterator1;
-    typedef const UnitContainer::nth_index_const_iterator<1>::type UnitContainerConstIterator1;
+    typedef UnitContainer::index_iterator<UnitSequenced> UnitSequencedIterator;
+    typedef const UnitContainer::index_const_iterator<UnitSequenced> UnitConstSequencedIterator;
 
     // Forward declarations
     class Universe;
