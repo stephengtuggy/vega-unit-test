@@ -22,8 +22,8 @@ namespace VegaStrike {
     using namespace boost;
     using namespace boost::multi_index;
 
-    typedef UnitContainer::index_iterator<UnitSequenced> UnitSequencedIterator;
-    typedef const UnitContainer::index_const_iterator<UnitSequenced> UnitConstSequencedIterator;
+    typedef FgMemberCollection::index_iterator<FgMemberSequenced> UnitSequencedIterator;
+    typedef const FgMemberCollection::index_const_iterator<FgMemberSequenced> UnitConstSequencedIterator;
 
     // Forward declarations
     class Universe;
@@ -31,8 +31,8 @@ namespace VegaStrike {
 
     class Universe {
     private:
-        UnitContainer all_live_units{};
-        UnitContainer all_dying_units{};
+        FgMemberCollection all_live_units{};
+        FgMemberCollection all_dying_units{};
 
         friend Universe& getUniverse();
 
@@ -44,11 +44,11 @@ namespace VegaStrike {
         Universe(Universe const & rhs) = delete;
         Universe & operator=(Universe const & rhs) = delete;
 
-        inline UnitContainer const & getAllLiveUnits() const {
+        inline FgMemberCollection const & getAllLiveUnits() const {
             return all_live_units;
         }
 
-        inline UnitContainer const & getAllDyingUnits() const {
+        inline FgMemberCollection const & getAllDyingUnits() const {
             return all_dying_units;
         }
 

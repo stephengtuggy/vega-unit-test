@@ -7,82 +7,74 @@
 
 #include <string>
 #include <cstdint>
-//#include <iostream>
+#include <iostream>
 #include <utility>
+#include "flightgroup_member.hpp"
+#include "can_be_parent.hpp"
+#include "can_be_owner.hpp"
 
 namespace VegaStrike {
 
     class Universe;
 
-    class Unit {
+    class Unit : public FlightgroupMember,
+            public CanBeParent,
+            public CanBeOwner {
     protected:
         bool killed{false};
 
-        std::string flightgroup_name;
-        int32_t flightgroup_member_number{};
+//        std::string flightgroup_name;
+//        int32_t flightgroup_member_number{};
 
-        inline bool isKilled() const {
-//            std::cout << "isKilled called. Value: " << killed << std::endl;
-            return killed;
-        }
+        bool isKilled() const;
 
         friend class Universe;
 
     public:
-        inline Unit(Unit const & rhs) : flightgroup_name(rhs.flightgroup_name), flightgroup_member_number(rhs.flightgroup_member_number) {
-//            std::cout << "Unit copy constructor called" << std::endl;
-            isKilled();
-        }
+        // Copy constructor -- forbidden
+        inline Unit(Unit const & rhs) = delete; // : FlightgroupMember(rhs.getFlightgroupName(), rhs.getFlightgroupSubNumber()), killed(false) {
+////            std::cout << "Unit copy constructor called" << std::endl;
+//            isKilled();
+//        }
 
-        inline Unit & operator=(Unit const & rhs) {
-//            std::cout << "Unit operator= called" << std::endl;
-            flightgroup_name = rhs.flightgroup_name;
-            flightgroup_member_number = rhs.flightgroup_member_number;
-            return *this;
-        }
+        // Move constructor
+        inline Unit(Unit&& rhs) = default;
 
-        inline virtual ~Unit() {
-//            std::cout << "Unit destructor called" << std::endl;
-        }
+        inline Unit & operator=(Unit const & rhs) = delete; //{
+////            std::cout << "Unit operator= called" << std::endl;
+//            flightgroup_name = rhs.flightgroup_name;
+//            flightgroup_member_number = rhs.flightgroup_member_number;
+//            return *this;
+//        }
+
+        ~Unit() override;
 
         Unit() = delete;
 
-        inline virtual void kill() {
-//            std::cout << "kill called" << std::endl;
-            killed = true;
-        }
+        virtual void kill();
 
-        std::string getFlightgroupName() const {
-            return flightgroup_name;
+        std::string getFlightgroupName() const override {
+            return flightgroup_name_;
         }
 
         int32_t getFlightgroupMemberNumber() const {
-            return flightgroup_member_number;
+            return flightgroup_sub_number_;
         }
 
-        int32_t getFlightgroupSubNumber() const {
-            return flightgroup_member_number;
+        int32_t getFlightgroupSubNumber() const override {
+            return flightgroup_sub_number_;
         }
 
-        bool operator<(const Unit& other_unit) const {
-            if (this->flightgroup_name < other_unit.flightgroup_name) {
-                return true;
-            } else if (this->flightgroup_name > other_unit.flightgroup_name) {
-                return false;
-            } else {
-                return (this->flightgroup_member_number < other_unit.flightgroup_member_number);
-            }
-        }
+        bool operator<(const Unit& other_unit) const;
 
-        inline Unit(std::string flightgroup_name, int32_t flightgroup_member_number) : flightgroup_name(
-                std::move(flightgroup_name)), flightgroup_member_number(flightgroup_member_number) {
+        inline Unit(std::string flightgroup_name, int32_t flightgroup_sub_number) : FlightgroupMember(std::move(flightgroup_name), flightgroup_sub_number), killed(false) {
 //            std::cout << "Two-arg Unit constructor called" << std::endl;
             isKilled();
         }
     };
 
     inline std::ostream & operator<<(std::ostream& os, const Unit& unit) {
-        os << unit.getFlightgroupName() << ' ' << unit.getFlightgroupMemberNumber();
+        os << unit.getFlightgroupName() << '-' << unit.getFlightgroupSubNumber();
         return os;
     }
 
@@ -93,7 +85,7 @@ namespace VegaStrike {
             } else if (unit.getFlightgroupName() > flightgroup_name) {
                 return false;
             } else {
-                return unit.getFlightgroupMemberNumber() < flightgroup_number;
+                return unit.getFlightgroupSubNumber() < flightgroup_number;
             }
         }
 
@@ -103,7 +95,7 @@ namespace VegaStrike {
             } else if (flightgroup_name > unit.getFlightgroupName()) {
                 return false;
             } else {
-                return flightgroup_number < unit.getFlightgroupMemberNumber();
+                return flightgroup_number < unit.getFlightgroupSubNumber();
             }
         }
 
@@ -113,7 +105,7 @@ namespace VegaStrike {
             } else if (unit.getFlightgroupName() > flightgroup_name) {
                 return false;
             } else {
-                return unit.getFlightgroupMemberNumber() < flightgroup_number;
+                return unit.getFlightgroupSubNumber() < flightgroup_number;
             }
         }
 
@@ -123,7 +115,7 @@ namespace VegaStrike {
             } else if (flightgroup_name > unit.getFlightgroupName()) {
                 return false;
             } else {
-                return flightgroup_number < unit.getFlightgroupMemberNumber();
+                return flightgroup_number < unit.getFlightgroupSubNumber();
             }
         }
     };
