@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdint>
 #include <utility>
+#include <boost/shared_ptr.hpp>
 
 namespace VegaStrike {
 
@@ -27,10 +28,13 @@ namespace VegaStrike {
         virtual ~FlightgroupMember() = default;
 
         FlightgroupMember& operator=(FlightgroupMember& initializer) = delete;
-        virtual bool operator<(FlightgroupMember& other);
+        virtual bool operator<(FlightgroupMember& other) const;
+        virtual bool operator<(FlightgroupMember const& other) const;
 
         virtual std::string getFlightgroupName() const;
         virtual int32_t getFlightgroupSubNumber() const;
+
+//        explicit FlightgroupMember(const boost::shared_ptr<FlightgroupMember> sharedPtr);
     };
 
 } // VegaStrike

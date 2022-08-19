@@ -30,13 +30,14 @@ namespace VegaStrike {
             boost::shared_ptr<FlightgroupMember>,
             indexed_by<
                     sequenced<tag<FgMemberSequenced>>,
-                    ordered_unique<tag<FgMemberByIdentity>, identity<FlightgroupMember>>>,
+                    ordered_unique<tag<FgMemberByIdentity>, identity<FlightgroupMember>>,
                     ordered_unique<tag<FgMemberByFlightgroup>,
                             composite_key<FlightgroupMember,
                                     const_mem_fun<FlightgroupMember, std::string, &FlightgroupMember::getFlightgroupName>,
                                     const_mem_fun<FlightgroupMember, int32_t, &FlightgroupMember::getFlightgroupSubNumber>
                             >,
                             composite_key_compare<std::less<std::string>, std::less<int32_t>>
+                    >
             >
     > FgMemberCollection;
     typedef FgMemberCollection::index<FgMemberSequenced>::type BySequence;

@@ -22,8 +22,12 @@ namespace VegaStrike {
     using namespace boost;
     using namespace boost::multi_index;
 
-    typedef FgMemberCollection::index_iterator<FgMemberSequenced> UnitSequencedIterator;
-    typedef const FgMemberCollection::index_const_iterator<FgMemberSequenced> UnitConstSequencedIterator;
+    typedef FgMemberCollection::index_iterator<FgMemberSequenced>::type UnitSequencedIterator;
+    typedef const FgMemberCollection::index_const_iterator<FgMemberSequenced>::type UnitConstSequencedIterator;
+    typedef FgMemberCollection::index_iterator<FgMemberByIdentity>::type UnitByIDIterator;
+    typedef const FgMemberCollection::index_const_iterator<FgMemberByIdentity>::type UnitByIDConstIterator;
+    typedef FgMemberCollection::index_iterator<FgMemberByFlightgroup>::type UnitByFlightgroupIterator;
+    typedef const FgMemberCollection::index_const_iterator<FgMemberByFlightgroup>::type UnitByFlightgroupConstIterator;
 
     // Forward declarations
     class Universe;
@@ -52,17 +56,39 @@ namespace VegaStrike {
             return all_dying_units;
         }
 
-        inline Unit & createUnit(std::string flightgroup_name, int32_t flightgroup_member_number) {
+        inline boost::shared_ptr<Unit> createUnit(std::string flightgroup_name, int32_t flightgroup_member_number) {
             boost::shared_ptr<Unit> new_unit = boost::make_shared<Unit>(std::move(flightgroup_name), flightgroup_member_number);
-            all_live_units.get<0>().insert(*new_unit);
-            return *new_unit;
+            boost::shared_ptr<FlightgroupMember> fg_member = boost::dynamic_pointer_cast<FlightgroupMember>(new_unit);
+            all_live_units.get<FgMemberSequenced>().push_back(fg_member);
+            return new_unit;
         }
 
-        inline void killUnit(Unit & unitToKill) {
-            unitToKill.kill();
-            all_dying_units.get<0>().insert(unitToKill);
-            all_live_units.get<0>().erase(unitToKill);
+        inline void killUnit(boost::shared_ptr<Unit> unit_to_kill) {
+            boost::shared_ptr<FlightgroupMember> fg_member = boost::dynamic_pointer_cast<FlightgroupMember>(unit_to_kill);
+            all_dying_units.get<FgMemberSequenced>().push_back(fg_member);
+            all_live_units.get<FgMemberByFlightgroup>().erase(all_live_units.get<FgMemberByFlightgroup>().find(std::make_tuple(fg_member->getFlightgroupName(), fg_member->getFlightgroupSubNumber())));
+            unit_to_kill->kill();
         }
+
+        inline void killAllUnits() {
+            all_dying_units.get<FgMemberSequenced>().merge(all_live_units.get<FgMemberSequenced>());
+            all_live_units.clear();
+            for (auto & each_unit : all_dying_units.get<FgMemberSequenced>()) {
+                boost::dynamic_pointer_cast<Unit>(each_unit)->kill();
+            }
+        }
+
+//        inline void killUnit(const std::string& flightgroup_name, const int32_t flightgroup_sub_number) {
+//
+//        }
+
+//        inline void killUnit(UnitByFlightgroupIterator unit_to_kill) {
+//            unit_to_kill->->kill();
+//        }
+
+//        inline UnitByFlightgroupConstIterator & findUnitByFlightgroupID(const std::string& flightgroup_name, const int32_t flightgroup_sub_number) {
+//            return all_live_units.get<FgMemberByFlightgroup>().find(std::make_tuple(flightgroup_name, flightgroup_sub_number));
+//        }
     };
 
     static Universe& getUniverse() {
