@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdint>
 #include <utility>
+#include <iostream>
 #include <boost/shared_ptr.hpp>
 
 namespace VegaStrike {
@@ -36,6 +37,11 @@ namespace VegaStrike {
 
 //        explicit FlightgroupMember(const boost::shared_ptr<FlightgroupMember> sharedPtr);
     };
+
+    inline std::ostream & operator<<(std::ostream& os, boost::shared_ptr<FlightgroupMember> flightgroup_member) {
+        os << flightgroup_member->getFlightgroupName() << '-' << flightgroup_member->getFlightgroupSubNumber();
+        return os;
+    }
 
 } // VegaStrike
 

@@ -68,7 +68,7 @@ namespace VegaStrike {
         bool operator<(const Unit& other_unit) const;
 
         inline Unit(std::string flightgroup_name, int32_t flightgroup_sub_number) : FlightgroupMember(std::move(flightgroup_name), flightgroup_sub_number), killed(false) {
-//            std::cout << "Two-arg Unit constructor called" << std::endl;
+            std::cout << "Two-arg Unit constructor called" << std::endl;
             isKilled();
         }
     };

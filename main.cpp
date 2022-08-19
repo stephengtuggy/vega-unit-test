@@ -31,7 +31,7 @@ int main() {
     std::cout << "Copying all the Units to cout" << std::endl;
     FgMemberCollection const & live_units = universe.getAllLiveUnits();
     for (const auto& each_unit : live_units.get<FgMemberSequenced>()) {
-        std::cout << each_unit;
+        std::cout << each_unit << std::endl;
     }
 
     std::cout << (boost::format("Killing number %1% from flightgroup %2%") % kNumOfUnitToKill % kFlightgroupName) << std::endl;
@@ -39,7 +39,7 @@ int main() {
 
     std::cout << "Copying all the remaining Units to cout" << std::endl;
     for (const auto& each_unit : live_units.get<FgMemberSequenced>()) {
-        std::cout << each_unit;
+        std::cout << each_unit << std::endl;
     }
 
     std::cout << "Killing all the remaining Units" << std::endl;
