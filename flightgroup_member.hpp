@@ -19,7 +19,7 @@ namespace VegaStrike {
         int32_t flightgroup_sub_number_{};
     public:
         // Default constructor -- forbidden
-        inline FlightgroupMember() = default;
+        inline FlightgroupMember() = delete;
         // Copy constructor -- forbidden
         FlightgroupMember(FlightgroupMember const & rhs) = delete; //: flightgroup_name_(rhs.flightgroup_name_), flightgroup_sub_number_(rhs.flightgroup_sub_number_) {}
         // Move constructor
